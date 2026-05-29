@@ -1,0 +1,24 @@
+name: Lint Infrastructure Scripts
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Скачиваем код репозитория
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Шаг 2: Проверяем все .sh файлы на наличие ошибок в синтаксисе Bash
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: './01-jenkins-setup'
+      env:
+        SHELLCHECK_OPTS: -e SC2086 # Опционально: игнорировать определенные предупреждения
